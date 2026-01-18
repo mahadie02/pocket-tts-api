@@ -5,6 +5,7 @@ import hashlib
 import time
 import uuid
 import socket
+import urllib.request
 from pathlib import Path
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Header, Query, File, UploadFile, Form
@@ -26,21 +27,39 @@ MODELS_DIR.mkdir(exist_ok=True)
 VOICE_DIR = Path(__file__).parent / "voice"
 VOICE_DIR.mkdir(exist_ok=True)
 
-# Get IPv4 address for URL generation
-def get_ipv4_address():
-    """Get the IPv4 address of the machine."""
+# Get public IPv4 address for URL generation
+def get_public_ipv4_address():
+    """Get the public IPv4 address of the machine."""
+    # Try multiple services to get public IP
+    services = [
+        "https://api.ipify.org",
+        "https://ifconfig.me/ip",
+        "https://icanhazip.com",
+        "https://ident.me",
+    ]
+    
+    for service in services:
+        try:
+            with urllib.request.urlopen(service, timeout=5) as response:
+                ip = response.read().decode('utf-8').strip()
+                # Validate it's a valid IP address
+                socket.inet_aton(ip)
+                return ip
+        except Exception:
+            continue
+    
+    # Fallback: try to get local IP if public IP fetch fails
     try:
-        # Connect to a remote address to determine local IP
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
         ip = s.getsockname()[0]
         s.close()
         return ip
     except Exception:
-        # Fallback to localhost if unable to determine IP
+        # Final fallback to localhost
         return "127.0.0.1"
 
-SERVER_IP = get_ipv4_address()
+SERVER_IP = get_public_ipv4_address()
 # Get port from environment variable, default to 8000
 SERVER_PORT = int(os.getenv("PORT", "8000"))
 
