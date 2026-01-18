@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-dotenv
+pocket-tts
+scipy
+pydub
+huggingface_hub
