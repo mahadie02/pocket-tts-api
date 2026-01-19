@@ -16,7 +16,7 @@ A FastAPI-based Text-to-Speech server using PocketTTS with support for built-in 
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.12 (recommended). Avoid Python 3.13 to prevent audio library issues.
 - FFmpeg (required for MP3/OGG conversion)
 
 #### Install FFmpeg
@@ -38,26 +38,21 @@ brew install ffmpeg
 ```
 
 **Windows:**
-Download from [ffmpeg.org](https://ffmpeg.org/download.html) and add to PATH
+Download from `https://ffmpeg.org/download.html` and add to PATH
 
 ### Python Dependencies
 
 1. Clone or download this repository
 
-2. Create a virtual environment (recommended):
+2. Create a Conda environment with Python 3.12 (recommended):
 ```bash
-python -m venv venv
+conda create -n pocket-tts python=3.12
 ```
 
-3. Activate the virtual environment:
-   - **Windows:**
-     ```bash
-     venv\Scripts\activate
-     ```
-   - **Linux/macOS:**
-     ```bash
-     source venv/bin/activate
-     ```
+3. Activate the Conda environment:
+```bash
+conda activate pocket-tts
+```
 
 4. Install dependencies:
 ```bash
@@ -86,22 +81,15 @@ MAX_CHARS_PER_CHUNK=218
 
 Voice cloning requires access to the PocketTTS model on HuggingFace.
 
-1. **Accept Terms**: Visit https://huggingface.co/kyutai/pocket-tts and accept the terms
+1. **Accept Terms**: Visit `https://huggingface.co/kyutai/pocket-tts` and accept the terms
 
-2. **Get Your Token**: Go to https://huggingface.co/settings/tokens and create a token
+2. **Get Your Token**: Go to `https://huggingface.co/settings/tokens` and create a token
 
-3. **Login** (choose one method):
-
-   **Method 1 - Using huggingface-cli:**
-   ```bash
-   huggingface-cli login
-   ```
-   Enter your token when prompted.
-
-   **Method 2 - Using uvx:**
-   ```bash
-   uvx hf auth login
-   ```
+3. **Login with Hugging Face CLI:**
+```bash
+hf auth login
+```
+Enter your Hugging Face token (from step 2) when prompted.
 
 The token will be saved automatically and used for model downloads.
 
@@ -151,14 +139,14 @@ GET http://localhost:8000/
 
 **Parameters:**
 - `script` (required): Text to convert to speech
-- `model` (optional, default: "alba"): Voice model name
+- `model` (optional, default: "alba"): Voice model name  
   - Available: `alba`, `marius`, `javert`, `jean`, `fantine`, `cosette`, `eponine`, `azelma`
-- `type` (optional, default: "file"): Return type
-  - `file`: Stream audio file directly
+- `type` (optional, default: "file"): Return type  
+  - `file`: Stream audio file directly  
   - `url`: Save to server and return URL
-- `format` (optional, default: "mp3"): Audio format
-  - `wav`: WAV format
-  - `mp3`: MP3 format (compressed)
+- `format` (optional, default: "mp3"): Audio format  
+  - `wav`: WAV format  
+  - `mp3`: MP3 format (compressed)  
   - `ogg`: OGG format (compressed)
 
 **Example - Stream MP3:**
@@ -240,14 +228,14 @@ curl -X POST http://localhost:8000/tts/clone \
 
 ### Directory Structure
 
-```
+```text
 PocketTTS/
 ├── server.py              # Main server file
 ├── requirements.txt       # Python dependencies
 ├── .env                   # Configuration (create this)
 ├── models/                # Downloaded models (auto-created)
 ├── voice/                 # Saved audio files (auto-created)
-└── README.md             # This file
+└── README.md              # This file
 ```
 
 ### Model Storage
@@ -267,8 +255,8 @@ PocketTTS/
 
 ### Models Not Downloading
 
-- Ensure you're logged into HuggingFace: `huggingface-cli login`
-- Check that you've accepted terms at https://huggingface.co/kyutai/pocket-tts
+- Ensure you're logged into HuggingFace: `hf auth login`
+- Check that you've accepted terms at `https://huggingface.co/kyutai/pocket-tts`
 - Verify internet connection and HuggingFace access
 
 ### FFmpeg Not Found
@@ -311,5 +299,6 @@ This project uses PocketTTS. Please refer to PocketTTS license terms.
 ## Support
 
 For issues related to:
-- **PocketTTS**: https://github.com/kyutai/pocket-tts
-- **HuggingFace**: https://huggingface.co/kyutai/pocket-tts
+- **PocketTTS**: `https://github.com/kyutai/pocket-tts`
+- **HuggingFace**: `https://huggingface.co/kyutai/pocket-tts`
+
