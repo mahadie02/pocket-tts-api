@@ -299,6 +299,6 @@ This project uses PocketTTS. Please refer to PocketTTS license terms.
 ## Support
 
 For issues related to:
-- **PocketTTS**: `https://github.com/kyutai/pocket-tts`
+- **PocketTTS**: `https://github.com/kyutai-labs/pocket-tts`
 - **HuggingFace**: `https://huggingface.co/kyutai/pocket-tts`
 
