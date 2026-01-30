@@ -169,7 +169,7 @@ curl -X POST http://localhost:8000/tts \
 **Response (type="url"):**
 ```json
 {
-  "url": "http://192.168.1.100:8000/voice/audio_1234567890_abc12345.mp3",
+  "url": "http://localhost:8000/voice/audio_1234567890_abc12345.mp3",
   "filename": "audio_1234567890_abc12345.mp3"
 }
 ```
